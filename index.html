@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>misterious</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .typing-container {
+            font-size: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #ffffff;
+            width: 24ch;
+            animation: typing 4s steps(24) forwards, blink 0.5s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 17ch;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #ffffff;
+            }
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #121212;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .result.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="typing-container">
+        Apakah kamu Raisa?
+    </div>
+    <div class="buttons">
+        <button onclick="showResult('iya')">Iya</button>
+        <button onclick="showResult('tidak')">Tidak</button>
+    </div>
+    <div class="result" id="result"></div>
+
+    <script>
+        // Tampilkan tombol setelah animasi selesai
+        setTimeout(() => {
+            document.querySelector('.buttons').style.display = 'flex';
+        }, 4000); // Sesuaikan dengan durasi animasi mengetik
+
+        // Fungsi untuk menampilkan hasil berdasarkan pilihan
+        function showResult(choice) {
+            const result = document.getElementById('result');
+            if (choice === 'iya') {
+                result.textContent = 'Selamat datang Raisa :)';
+                result.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'streak.html';
+                }, 3000); // Delay 3 detik sebelum pindah halaman
+            } else {
+                result.textContent = 'Oh, maaf. Saya hanya ingin berbicara dengan Raisa.';
+                result.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
