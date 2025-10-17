@@ -43,12 +43,56 @@
             overflow: hidden;
             pointer-events: none;
         }
+        .instagram__container_bawah {
+            position: absolute;
+            top: 30vh;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .instagram__container_atas {
+            position: absolute;
+            bottom: 30vh;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
         .instagram__flex {
             display: flex;
             align-items: center;
             gap: 3rem;
             animation: scrollLeft 20s linear infinite;
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            left: 0;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .instagram__flex_bawah {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            animation: scrollRight 20s linear infinite;
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            left: 0;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .instagram__flex_atas {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            animation: scrollRight 20s linear infinite;
             position: absolute;
             width: 200%;
             height: 100%;
@@ -63,31 +107,13 @@
             opacity: 0.2;
         }
 
-        .instagram__container_bawah {
-            position: absolute;
-            top: 30vh;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .instagram__flex_bawah {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            animation: scrollRight 20s linear infinite;
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            left: 0;
-            white-space: nowrap;
-            will-change: transform;
-        }
-
         .instagram__flex_bawah img {
+            max-width: 135px;
+            width: 40vw;
+            opacity: 0.2;
+        }
+
+        .instagram__flex_atas img {
             max-width: 135px;
             width: 40vw;
             opacity: 0.2;
@@ -141,6 +167,27 @@
     </style>
 </head>
 <body>
+
+    <!-- Animasi Gambar Atas -->
+    <div class="instagram__container_atas">
+        <div class="instagram__flex_atas">
+            <img src="assets/api.png" alt="img1">
+            <img src="assets/api.png" alt="img2">
+            <img src="assets/api.png" alt="img3">
+            <img src="assets/api.png" alt="img4">
+            <img src="assets/api.png" alt="img5">
+            <img src="assets/api.png" alt="img6">
+            <img src="assets/api.png" alt="img7">
+            <!-- Duplikasi gambar -->
+            <img src="assets/api.png" alt="img1">
+            <img src="assets/api.png" alt="img2">
+            <img src="assets/api.png" alt="img3">
+            <img src="assets/api.png" alt="img4">
+            <img src="assets/api.png" alt="img5">
+            <img src="assets/api.png" alt="img6">
+            <img src="assets/api.png" alt="img7">
+        </div>
+    </div>
 
     <!-- Animasi Gambar Atas -->
     <div class="instagram__container">
