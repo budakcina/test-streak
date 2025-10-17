@@ -19,16 +19,18 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .login-box {
             background-color: #ffffff;
             border: 2px solid #880e4f;
             border-radius: 10px;
             padding: 20px;
-            width: 300px;
+            max-width: 350px;
+            width: 90%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 2;  /* Pastikan di atas background */
+            z-index: 2;
             position: relative;
+            box-sizing: border-box;
         }
 
         .instagram__container {
@@ -39,24 +41,59 @@
             height: 100%;
             z-index: 1;
             overflow: hidden;
+            pointer-events: none;
         }
 
         .instagram__flex {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            animation: scroll 20s linear infinite;
+            gap: 3rem;
+            animation: scrollLeft 20s linear infinite;
             position: absolute;
             width: 200%;
             height: 100%;
+            left: 0;
+            white-space: nowrap;
+            will-change: transform;
         }
 
         .instagram__flex img {
             max-width: 135px;
+            width: 10vw;
             opacity: 0.2;
         }
 
-        @keyframes scroll {
+        .instagram__container_bawah {
+            position: absolute;
+            top: 30vh;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .instagram__flex_bawah {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            animation: scrollRight 20s linear infinite;
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            left: 0;
+            white-space: nowrap;
+            will-change: transform;
+        }
+
+        .instagram__flex_bawah img {
+            max-width: 135px;
+            width: 10vw;
+            opacity: 0.2;
+        }
+
+        @keyframes scrollLeft {
             from {
                 transform: translateX(0);
             }
@@ -65,7 +102,15 @@
             }
         }
 
-        /* Aturan responsif untuk login box */
+        @keyframes scrollRight {
+            from {
+                transform: translateX(-50%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
         @media (max-width: 480px) {
             .login-box {
                 width: 90%;
@@ -73,60 +118,64 @@
             }
         }
 
-        /* CSS untuk tombol back */
         #backButton {
-            position: absolute;  /* Tempatkan di pojok kiri atas */
-            top: 10px;  /* Jarak dari atas */
-            left: 10px;  /* Jarak dari kiri */
-            z-index: 3;  /* Pastikan di atas elemen lain */
-            background-color: #ffffff;  /* Latar belakang putih, sesuai tema */
-            color: #880e4f;  /* Warna teks sesuai tema */
-            padding: 10px 15px;  /* Padding untuk tampilan tombol */
-            border: 1px solid #880e4f;  /* Border tipis */
-            border-radius: 5px;  /* Sudut melengkung */
-            text-decoration: none;  /* Hilangkan garis bawah link */
-            font-weight: bold;  /* Tebal teks */
-            transition: background-color 0.3s;  /* Efek hover */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 3;
+            background-color: #ffffff;
+            color: #880e4f;
+            padding: 10px 15px;
+            border: 1px solid #880e4f;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         #backButton:hover {
-            background-color: #880e4f;  /* Ganti warna saat hover */
-            color: #ffffff;  /* Teks putih saat hover */
+            background-color: #880e4f;
+            color: #ffffff;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
+
+    <!-- Animasi Gambar Atas -->
     <div class="instagram__container">
         <div class="instagram__flex">
-            <!-- Gambar asli + duplikat untuk animasi yang mulus -->
-            <img src="assets/api.png" alt="Ikon API Instagram" />
-            <img src="assets/2.png" alt="Ikon Profil Instagram" />
-            <img src="assets/3.png" alt="Ikon Feed Instagram" />
-            <img src="assets/4.png" alt="Ikon Story Instagram" />
-            <img src="assets/5.png" alt="Ikon Reels Instagram" />
-            <img src="assets/6.png" alt="Ikon Pesan Instagram" />
-            <img src="assets/7.png" alt="Ikon Explore Instagram" />
-            <img src="assets/8.png" alt="Ikon Pengaturan Instagram" />
-            
+            <img src="https://via.placeholder.com/100" alt="img1">
+            <img src="https://via.placeholder.com/100" alt="img2">
+            <img src="https://via.placeholder.com/100" alt="img3">
+            <img src="https://via.placeholder.com/100" alt="img4">
+            <!-- Duplikasi gambar untuk seamless scroll -->
+            <img src="https://via.placeholder.com/100" alt="img1">
+            <img src="https://via.placeholder.com/100" alt="img2">
+            <img src="https://via.placeholder.com/100" alt="img3">
+            <img src="https://via.placeholder.com/100" alt="img4">
         </div>
     </div>
-    
-    <!-- Tombol back yang baru ditambahkan -->
+
+    <!-- Animasi Gambar Bawah -->
+    <div class="instagram__container_bawah">
+        <div class="instagram__flex_bawah">
+            <img src="https://via.placeholder.com/100" alt="img1">
+            <img src="https://via.placeholder.com/100" alt="img2">
+            <img src="https://via.placeholder.com/100" alt="img3">
+            <img src="https://via.placeholder.com/100" alt="img4">
+            <!-- Duplikasi gambar -->
+            <img src="https://via.placeholder.com/100" alt="img1">
+            <img src="https://via.placeholder.com/100" alt="img2">
+            <img src="https://via.placeholder.com/100" alt="img3">
+            <img src="https://via.placeholder.com/100" alt="img4">
+        </div>
+    </div>
+
     <a href="streak.html" id="backButton">⇐</a>
-    
+
     <div class="login-box">
         <h2>Blablablabla</h2>
     </div>
-    
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Form login dikirim! Ini hanya demo.');
-            // Di aplikasi asli, Anda bisa kirim data ke server di sini.
-        });
-    </script>
 </body>
 </html>
-
-
-
