@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>misterious</title>
     <style>
+        /* =================================
+           1. LAYOUT & TEMA
+           ================================= */
         body {
             margin: 0;
             padding: 0;
-            background-color: #121212;
+            background-color: #121212; /* Dark theme */
             color: #ffffff;
             font-family: Arial, sans-serif;
             display: flex;
@@ -19,13 +22,17 @@
             overflow: hidden;
         }
 
+        /* =================================
+           2. ANIMASI MENGETIK
+           ================================= */
         .typing-container {
             font-size: 24px;
             white-space: nowrap;
             overflow: hidden;
             border-right: 2px solid #ffffff;
-            width: 24ch;
-            animation: typing 4s steps(24) forwards, blink 0.5s step-end infinite;
+            width: 17ch; 
+            animation: typing 4s steps(17) forwards, 
+                       blink 0.5s step-end infinite;
         }
 
         @keyframes typing {
@@ -33,7 +40,7 @@
                 width: 0;
             }
             to {
-                width: 17ch;
+                width: 17ch; 
             }
         }
 
@@ -46,9 +53,25 @@
             }
         }
 
-        .buttons {
+        /* =================================
+           3. TOMBOL, INPUT, & HASIL
+           ================================= */
+        .buttons, .password-area {
             margin-top: 20px;
             display: none;
+            transition: opacity 0.5s ease-in-out; 
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Tampilkan tombol/input ketika class 'show-flex' ditambahkan */
+        .show-flex {
+            display: flex;
+        }
+        
+        .buttons.hide, .password-area.hide {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .buttons button {
@@ -60,6 +83,39 @@
             border-radius: 5px;
             background-color: #ffffff;
             color: #121212;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .buttons button:hover {
+            background-color: #cccccc;
+            transform: scale(1.05);
+        }
+        
+        /* Styling untuk Input Password */
+        #passwordInput {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ffffff;
+            background-color: #222222;
+            color: #ffffff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        #submitPassword {
+            padding: 8px 15px;
+            background-color: #4CAF50; /* Hijau */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submitPassword:hover {
+            background-color: #45a049;
         }
 
         .result {
@@ -78,30 +134,99 @@
     <div class="typing-container">
         Apakah kamu Raisa?
     </div>
-    <div class="buttons">
-        <button onclick="showResult('iya')">Iya</button>
-        <button onclick="showResult('tidak')">Tidak</button>
+    
+    <div class="buttons" id="buttons-container">
+        <button onclick="handleInitialChoice('iya')">Iya</button>
+        <button onclick="handleInitialChoice('tidak')">Tidak</button>
     </div>
+    
+    <div class="password-area" id="password-container">
+        <input type="password" id="passwordInput" placeholder="Masukkan Password..." />
+        <button id="submitPassword" onclick="checkPassword()">Masuk</button>
+    </div>
+    
     <div class="result" id="result"></div>
 
     <script>
-        // Tampilkan tombol setelah animasi selesai
-        setTimeout(() => {
-            document.querySelector('.buttons').style.display = 'flex';
-        }, 4000); // Sesuaikan dengan durasi animasi mengetik
+        const BUTTONS_TIMEOUT_MS = 10000; 
+        const CORRECT_PASSWORD = "13012008"; // GANTI DENGAN PASSWORD RAHASIA ANDA!
+        let interactionTimeout; 
 
-        // Fungsi untuk menampilkan hasil berdasarkan pilihan
-        function showResult(choice) {
-            const result = document.getElementById('result');
-            if (choice === 'iya') {
-                result.textContent = 'Selamat datang Raisa :)';
+        const buttonsContainer = document.getElementById('buttons-container');
+        const passwordContainer = document.getElementById('password-container');
+        const result = document.getElementById('result');
+
+        // Fungsi yang dijalankan ketika tidak ada interaksi
+        function handleNoInteraction() {
+            // Hapus tombol dan password area
+            buttonsContainer.classList.add('hide');
+            passwordContainer.classList.add('hide');
+            
+            // Tampilkan pesan "silahkan pergi"
+            setTimeout(() => {
+                result.textContent = 'silahkan pergi';
+                result.style.color = '#ff4444'; 
                 result.classList.add('show');
+            }, 500); 
+        }
+
+        // Tampilkan tombol setelah animasi mengetik selesai
+        setTimeout(() => {
+            buttonsContainer.classList.add('show-flex');
+            // Mulai hitungan mundur (timeout)
+            interactionTimeout = setTimeout(handleNoInteraction, BUTTONS_TIMEOUT_MS);
+        }, 4000); 
+
+        // Fungsi yang dipanggil ketika tombol 'Iya' atau 'Tidak' diklik
+        function handleInitialChoice(choice) {
+            clearTimeout(interactionTimeout); // Batalkan timeout
+            buttonsContainer.classList.add('hide'); // Hilangkan tombol
+            result.classList.remove('show');
+
+            if (choice === 'iya') {
+                // Tunda sedikit sebelum menampilkan input password agar transisi mulus
+                setTimeout(() => {
+                    passwordContainer.classList.add('show-flex');
+                    passwordContainer.focus();
+                }, 500);
+                 // Mulai hitungan mundur baru untuk password
+                interactionTimeout = setTimeout(handleNoInteraction, BUTTONS_TIMEOUT_MS);
+
+            } else {
+                // Pilihan 'Tidak' (Langsung tampilkan hasil)
+                result.textContent = 'Kepo luwh😝';
+                result.style.color = '#ffbb33';
+                result.classList.add('show');
+            }
+        }
+
+        // Fungsi untuk memeriksa password
+        function checkPassword() {
+            clearTimeout(interactionTimeout); // Batalkan timeout
+            const input = document.getElementById('passwordInput').value;
+            result.classList.remove('show');
+
+            if (input === CORRECT_PASSWORD) {
+                // Password Benar
+                passwordContainer.classList.add('hide');
+                result.textContent = 'Halo Raisa :)';
+                result.style.color = '#5cb85c'; 
+                result.classList.add('show');
+                
+                // Pindah halaman
                 setTimeout(() => {
                     window.location.href = 'streak.html';
-                }, 3000); // Delay 3 detik sebelum pindah halaman
+                }, 2000); 
+                
             } else {
-                result.textContent = 'Oh, maaf. Saya hanya ingin berbicara dengan Raisa.';
+                // Password Salah
+                result.textContent = 'Pergi luwh😝';
+                result.style.color = '#ff4444'; 
                 result.classList.add('show');
+                document.getElementById('passwordInput').value = ''; // Kosongkan input
+                
+                // Mulai hitungan mundur baru setelah password salah
+                interactionTimeout = setTimeout(handleNoInteraction, BUTTONS_TIMEOUT_MS); 
             }
         }
     </script>
