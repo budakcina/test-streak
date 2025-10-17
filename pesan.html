@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Halaman Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +16,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
+        
         .login-box {
             background-color: #ffffff;
             border: 2px solid #880e4f;
@@ -24,16 +27,112 @@
             padding: 20px;
             width: 300px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 2;  /* Pastikan di atas background */
+            position: relative;
+        }
+
+        .instagram__container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .instagram__flex {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: scroll 20s linear infinite;
+            position: absolute;
+            width: 200%;
+            height: 100%;
+        }
+
+        .instagram__flex img {
+            max-width: 135px;
+            opacity: 0.2;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Aturan responsif untuk login box */
+        @media (max-width: 480px) {
+            .login-box {
+                width: 90%;
+                padding: 15px;
+            }
+        }
+
+        /* CSS untuk tombol back */
+        #backButton {
+            position: absolute;  /* Tempatkan di pojok kiri atas */
+            top: 10px;  /* Jarak dari atas */
+            left: 10px;  /* Jarak dari kiri */
+            z-index: 3;  /* Pastikan di atas elemen lain */
+            background-color: #ffffff;  /* Latar belakang putih, sesuai tema */
+            color: #880e4f;  /* Warna teks sesuai tema */
+            padding: 10px 15px;  /* Padding untuk tampilan tombol */
+            border: 1px solid #880e4f;  /* Border tipis */
+            border-radius: 5px;  /* Sudut melengkung */
+            text-decoration: none;  /* Hilangkan garis bawah link */
+            font-weight: bold;  /* Tebal teks */
+            transition: background-color 0.3s;  /* Efek hover */
+        }
+
+        #backButton:hover {
+            background-color: #880e4f;  /* Ganti warna saat hover */
+            color: #ffffff;  /* Teks putih saat hover */
         }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>blablablablabla</h2>
-        <form>
-           
+    <div class="instagram__container">
+        <div class="instagram__flex">
+            <!-- Gambar asli + duplikat untuk animasi yang mulus -->
+            <img src="assets/api.png" alt="Ikon API Instagram" />
+            <img src="assets/2.png" alt="Ikon Profil Instagram" />
+            <img src="assets/3.png" alt="Ikon Feed Instagram" />
+            <img src="assets/4.png" alt="Ikon Story Instagram" />
+            <img src="assets/5.png" alt="Ikon Reels Instagram" />
+            <img src="assets/6.png" alt="Ikon Pesan Instagram" />
+            <img src="assets/7.png" alt="Ikon Explore Instagram" />
+            <img src="assets/8.png" alt="Ikon Pengaturan Instagram" />
             
-        </form>
+            <!-- Duplikat gambar -->
+            <img src="assets/api.png" alt="Ikon API Instagram" />
+            <img src="assets/2.png" alt="Ikon Profil Instagram" />
+            <img src="assets/3.png" alt="Ikon Feed Instagram" />
+            <img src="assets/4.png" alt="Ikon Story Instagram" />
+            <img src="assets/5.png" alt="Ikon Reels Instagram" />
+            <img src="assets/6.png" alt="Ikon Pesan Instagram" />
+            <img src="assets/7.png" alt="Ikon Explore Instagram" />
+            <img src="assets/8.png" alt="Ikon Pengaturan Instagram" />
+        </div>
     </div>
+    
+    <!-- Tombol back yang baru ditambahkan -->
+    <a href="streak.html" id="backButton">⇐</a>
+    
+    <div class="login-box">
+        <h2>Blablablabla</h2>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Form login dikirim! Ini hanya demo.');
+            // Di aplikasi asli, Anda bisa kirim data ke server di sini.
+        });
+    </script>
 </body>
 </html>
