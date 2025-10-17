@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
     <style>
+        /* =================================
+           1. LAYOUT & FONT
+           ================================= */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Caveat Brush", cursive; /* Pastikan font digunakan */
             text-align: center;
             background-color: #fce4ec;
             color: #880e4f;
@@ -18,8 +24,19 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+            
+            /* Animasi Fade In */
+            opacity: 0;
+            transition: opacity 1s ease-in-out; 
+        }
+        /* Class yang ditambahkan oleh JS setelah halaman dimuat */
+        body.loaded {
+            opacity: 1;
         }
 
+        /* =================================
+           2. LOGIN BOX (RESPONSIVITAS)
+           ================================= */
         .login-box {
             background-color: #ffffff;
             border: 2px solid #880e4f;
@@ -28,127 +45,76 @@
             max-width: 350px;
             width: 90%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 2;
+            z-index: 3; /* Tingkatkan z-index agar login box selalu terlihat */
             position: relative;
             box-sizing: border-box;
         }
 
-        .instagram__container {
+        /* =================================
+           3. BACKGROUND ANIMATION CONTAINERS
+           ================================= */
+        .instagram__container, .instagram__container_bawah, .instagram__container_atas {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            left: 0;
             overflow: hidden;
             pointer-events: none;
         }
-        .instagram__container_bawah {
-            position: absolute;
-            top: 30vh;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .instagram__container_atas {
-            position: absolute;
-            bottom: 30vh;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            overflow: hidden;
-            pointer-events: none;
-        }
+        .instagram__container { top: 0; z-index: 1; }
+        .instagram__container_bawah { top: 30vh; z-index: 2; }
+        .instagram__container_atas { bottom: 30vh; z-index: 2; }
 
-        .instagram__flex {
+        /* =================================
+           4. ANIMATION FLEX ELEMENTS (PERFORMA)
+           ================================= */
+        .instagram__flex, .instagram__flex_bawah, .instagram__flex_atas {
             display: flex;
             align-items: center;
             gap: 3rem;
-            animation: scrollLeft 10s linear infinite;
             position: absolute;
             width: 200%;
             height: 100%;
             left: 0;
             white-space: nowrap;
-            will-change: transform;
-        }
-        .instagram__flex_bawah {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            animation: scrollRight 10s linear infinite;
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            left: 0;
-            white-space: nowrap;
-            will-change: transform;
-        }
-        .instagram__flex_atas {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            animation: scrollRight 10s linear infinite;
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            left: 0;
-            white-space: nowrap;
-            will-change: transform;
+            will-change: transform; /* Optimasi GPU */
         }
 
-        .instagram__flex img {
+        .instagram__flex { animation: scrollLeft 20s linear infinite; }
+        .instagram__flex_bawah { animation: scrollRight 20s linear infinite; }
+        .instagram__flex_atas { animation: scrollRight 20s linear infinite; } /* Menggunakan scrollRight */
+
+        .instagram__flex img, .instagram__flex_bawah img, .instagram__flex_atas img {
             max-width: 135px;
-            width: 40vw;
+            /* Gunakan nilai vw yang lebih realistis agar gambar tidak terlalu besar/kecil */
+            width: 10vw; 
             opacity: 0.2;
+            height: auto;
         }
 
-        .instagram__flex_bawah img {
-            max-width: 135px;
-            width: 40vw;
-            opacity: 0.2;
-        }
-
-        .instagram__flex_atas img {
-            max-width: 135px;
-            width: 40vw;
-            opacity: 0.2;
-        }
-
+        /* =================================
+           5. KEYFRAMES (ANIMASI MULUS)
+           ================================= */
+        /* Scroll KIRI (Awal 50% ke Kiri - Akhir 50% ke Kanan: Ini menghasilkan pergeseran 100%) */
         @keyframes scrollLeft {
-            from {
-                transform: translateX(50%);
-            }
-            to {
-                transform: translateX(-50%);
-            }
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
         }
 
+        /* Scroll KANAN (Awal 50% ke Kanan - Akhir 50% ke Kiri: Ini menghasilkan pergeseran 100%) */
         @keyframes scrollRight {
-            from {
-                transform: translateX(-50%);
-            }
-            to {
-                transform: translateX(50%);
-            }
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
         }
 
-        @media (max-width: 480px) {
-            .login-box {
-                width: 90%;
-                padding: 15px;
-            }
-        }
-
+        /* =================================
+           6. TOMBOL BACK & FADE OUT FUNCTION
+           ================================= */
         #backButton {
             position: absolute;
             top: 10px;
             left: 10px;
-            z-index: 3;
+            z-index: 4;
             background-color: #ffffff;
             color: #880e4f;
             padding: 10px 15px;
@@ -164,11 +130,20 @@
             color: #ffffff;
             transform: scale(1.05);
         }
+        
+        /* Media Query sudah bagus */
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 15px;
+            }
+            .instagram__flex img, .instagram__flex_bawah img, .instagram__flex_atas img {
+                 width: 25vw; /* Tingkatkan ukuran gambar di ponsel agar terlihat */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Animasi Gambar Atas -->
     <div class="instagram__container_atas">
         <div class="instagram__flex_atas">
             <img src="assets/api.png" alt="img1">
@@ -178,7 +153,6 @@
             <img src="assets/api.png" alt="img5">
             <img src="assets/api.png" alt="img6">
             <img src="assets/api.png" alt="img7">
-            <!-- Duplikasi gambar -->
             <img src="assets/api.png" alt="img1">
             <img src="assets/api.png" alt="img2">
             <img src="assets/api.png" alt="img3">
@@ -189,7 +163,6 @@
         </div>
     </div>
 
-    <!-- Animasi Gambar Atas -->
     <div class="instagram__container">
         <div class="instagram__flex">
             <img src="assets/api.png" alt="img1">
@@ -199,7 +172,6 @@
             <img src="assets/api.png" alt="img5">
             <img src="assets/api.png" alt="img6">
             <img src="assets/api.png" alt="img7">
-            <!-- Duplikasi gambar -->
             <img src="assets/api.png" alt="img1">
             <img src="assets/api.png" alt="img2">
             <img src="assets/api.png" alt="img3">
@@ -210,7 +182,6 @@
         </div>
     </div>
 
-    <!-- Animasi Gambar Bawah -->
     <div class="instagram__container_bawah">
         <div class="instagram__flex_bawah">
             <img src="assets/api.png" alt="img1">
@@ -220,7 +191,6 @@
             <img src="assets/api.png" alt="img5">
             <img src="assets/api.png" alt="img6">
             <img src="assets/api.png" alt="img7">
-            <!-- Duplikasi gambar -->
             <img src="assets/api.png" alt="img1">
             <img src="assets/api.png" alt="img2">
             <img src="assets/api.png" alt="img3">
@@ -231,12 +201,54 @@
         </div>
     </div>
 
-    <a href="streak.html" id="backButton">⇐</a>
+    <a href="#" id="backButton" data-target="streak.html">⇐</a>
 
     <div class="login-box">
-        <h2>Blablablabla</h2>
+        <h2>Selamat Datang!</h2>
     </div>
+
+    <script>
+        // 1. FADE IN saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tambahkan class 'loaded' ke body setelah DOM siap
+            document.body.classList.add('loaded');
+        });
+
+        // 2. FADE OUT saat meninggalkan halaman
+        const backButton = document.getElementById('backButton');
+        const targetUrl = backButton.getAttribute('data-target');
+
+        // Ganti href tombol dengan '#' dan gunakan JS untuk navigasi
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Mencegah navigasi default
+            
+            // Mulai animasi fade out
+            document.body.style.opacity = '0'; 
+
+            // Setelah animasi fade out (1 detik sesuai CSS transition), alihkan halaman
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1000); // Harus sama dengan durasi transisi di CSS (1s)
+        });
+        
+        // Tambahkan fitur fade out ke semua link di halaman (opsional, tapi disarankan)
+        document.querySelectorAll('a').forEach(link => {
+            if (link.id !== 'backButton' && link.getAttribute('href')) {
+                link.addEventListener('click', (e) => {
+                    // Hanya lakukan fade out jika link mengarah ke halaman yang berbeda
+                    if (link.target !== '_blank' && link.href !== window.location.href + '#') {
+                        e.preventDefault();
+                        const href = link.href;
+
+                        document.body.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 1000);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
-
-
