@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Login</title>
+    <title>Halaman Pesan Animasi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
            1. LAYOUT & FONT
            ================================= */
         body {
-            font-family: "Caveat Brush", cursive; /* Pastikan font digunakan */
+            font-family: "Caveat Brush", cursive;
             text-align: center;
             background-color: #fce4ec;
             color: #880e4f;
@@ -25,17 +25,16 @@
             overflow: hidden;
             position: relative;
             
-            /* Animasi Fade In */
+            /* Animasi Fade In Halaman */
             opacity: 0;
             transition: opacity 1s ease-in-out; 
         }
-        /* Class yang ditambahkan oleh JS setelah halaman dimuat */
         body.loaded {
             opacity: 1;
         }
 
         /* =================================
-           2. LOGIN BOX (RESPONSIVITAS)
+           2. LOGIN BOX & KONTEN PESAN
            ================================= */
         .login-box {
             background-color: #ffffff;
@@ -45,13 +44,93 @@
             max-width: 350px;
             width: 90%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 3; /* Tingkatkan z-index agar login box selalu terlihat */
+            z-index: 3; 
             position: relative;
             box-sizing: border-box;
+            min-height: 200px; /* Tambahkan tinggi minimum agar kotak tidak kolaps */
+        }
+        
+        /* Kontainer untuk menjaga h3 dan h4 */
+        .message-container {
+            min-height: 100px; /* Ruang untuk pesan */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         /* =================================
-           3. BACKGROUND ANIMATION CONTAINERS
+           3. ANIMASI TYPEWRITER (H3)
+           ================================= */
+        #h3-typing {
+            overflow: hidden; 
+            border-right: 3px solid #880e4f; /* Efek kursor */
+            white-space: nowrap;
+            margin: 0 auto; 
+            font-size: 2.5em; /* Ukuran font yang lebih besar */
+            letter-spacing: 0.15em; 
+            width: 0; /* Mulai dari nol */
+        }
+
+        .typing-active #h3-typing {
+            /* Durasi dan langkah harus disesuaikan dengan panjang teks (11 karakter: "Haii icaa !") */
+            animation: 
+                typing 3s steps(11) forwards, 
+                blink-cursor 0.5s step-end infinite;
+        }
+
+        /* Keyframes Typewriter */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 11ch } /* 11ch = panjang teks "Haii icaa !" */
+        }
+
+        @keyframes blink-cursor {
+            from, to { border-color: transparent }
+            50% { border-color: #880e4f; }
+        }
+
+        /* =================================
+           4. ANIMASI FADE (H4)
+           ================================= */
+        #h4-message {
+            margin-top: 15px;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        #h4-message.show {
+            opacity: 1;
+        }
+
+        /* =================================
+           5. TOMBOL LANJUT
+           ================================= */
+        #nextButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: 2px solid #880e4f;
+            border-radius: 5px;
+            background-color: #880e4f;
+            color: #ffffff;
+            opacity: 0;
+            pointer-events: none; /* Nonaktifkan klik saat tersembunyi */
+            transition: opacity 0.5s, background-color 0.3s;
+        }
+
+        #nextButton.show {
+            opacity: 1;
+            pointer-events: auto; /* Aktifkan klik saat terlihat */
+        }
+
+        /* Gaya Tombol Lainnya & Keyframes BG (Disingkat) */
+        /* [ ... Gaya dan Keyframes BG Anda yang lainnya ... ] */
+        
+        /* =================================
+           6. BACKGROUND ANIMATION CONTAINERS
            ================================= */
         .instagram__container, .instagram__container_bawah, .instagram__container_atas {
             position: absolute;
@@ -65,9 +144,6 @@
         .instagram__container_bawah { top: 30vh; z-index: 2; }
         .instagram__container_atas { bottom: 30vh; z-index: 2; }
 
-        /* =================================
-           4. ANIMATION FLEX ELEMENTS (PERFORMA)
-           ================================= */
         .instagram__flex, .instagram__flex_bawah, .instagram__flex_atas {
             display: flex;
             align-items: center;
@@ -77,39 +153,30 @@
             height: 100%;
             left: 0;
             white-space: nowrap;
-            will-change: transform; /* Optimasi GPU */
+            will-change: transform;
         }
 
         .instagram__flex { animation: scrollLeft 20s linear infinite; }
         .instagram__flex_bawah { animation: scrollRight 20s linear infinite; }
-        .instagram__flex_atas { animation: scrollRight 20s linear infinite; } /* Menggunakan scrollRight */
+        .instagram__flex_atas { animation: scrollRight 20s linear infinite; }
 
         .instagram__flex img, .instagram__flex_bawah img, .instagram__flex_atas img {
             max-width: 135px;
-            /* Gunakan nilai vw yang lebih realistis agar gambar tidak terlalu besar/kecil */
             width: 10vw; 
             opacity: 0.2;
             height: auto;
         }
 
-        /* =================================
-           5. KEYFRAMES (ANIMASI MULUS)
-           ================================= */
-        /* Scroll KIRI (Awal 50% ke Kiri - Akhir 50% ke Kanan: Ini menghasilkan pergeseran 100%) */
         @keyframes scrollLeft {
             from { transform: translateX(0); }
             to { transform: translateX(-100%); }
         }
 
-        /* Scroll KANAN (Awal 50% ke Kanan - Akhir 50% ke Kiri: Ini menghasilkan pergeseran 100%) */
         @keyframes scrollRight {
             from { transform: translateX(-100%); }
             to { transform: translateX(0); }
         }
 
-        /* =================================
-           6. TOMBOL BACK & FADE OUT FUNCTION
-           ================================= */
         #backButton {
             position: absolute;
             top: 10px;
@@ -131,13 +198,12 @@
             transform: scale(1.05);
         }
         
-        /* Media Query sudah bagus */
         @media (max-width: 480px) {
             .login-box {
                 padding: 15px;
             }
             .instagram__flex img, .instagram__flex_bawah img, .instagram__flex_atas img {
-                 width: 25vw; /* Tingkatkan ukuran gambar di ponsel agar terlihat */
+                 width: 25vw;
             }
         }
     </style>
@@ -146,109 +212,137 @@
 
     <div class="instagram__container_atas">
         <div class="instagram__flex_atas">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7"> 
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7">
         </div>
     </div>
-
     <div class="instagram__container">
         <div class="instagram__flex">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7"> 
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7">
         </div>
     </div>
-
     <div class="instagram__container_bawah">
         <div class="instagram__flex_bawah">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
-            <img src="assets/api.png" alt="img1">
-            <img src="assets/api.png" alt="img2">
-            <img src="assets/api.png" alt="img3">
-            <img src="assets/api.png" alt="img4">
-            <img src="assets/api.png" alt="img5">
-            <img src="assets/api.png" alt="img6">
-            <img src="assets/api.png" alt="img7">
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7"> 
+            <img src="assets/api.png" alt="img1"> <img src="assets/api.png" alt="img2"> <img src="assets/api.png" alt="img3"> <img src="assets/api.png" alt="img4"> <img src="assets/api.png" alt="img5"> <img src="assets/api.png" alt="img6"> <img src="assets/api.png" alt="img7">
         </div>
     </div>
 
     <a href="#" id="backButton" data-target="streak.html">⇐</a>
 
     <div class="login-box">
-        <h2>Selamat Datang!</h2>
+        <div class="message-container">
+            <h3 id="h3-typing">Hai Icaa ! </h3>
+            <h4 id="h4-message"></h4>
+        </div>
+        <button id="nextButton" onclick="nextMessage()">Lanjut</button>
     </div>
 
     <script>
-        // 1. FADE IN saat halaman dimuat
+        // Data Pesan
+        const MESSAGES = [
+            "akhirnya kita sempet ngerayain walaupun ini wishlist aku dari lama ternyata masih bisa kesampean.",
+            "maapin ya itu si dus cet nya sobek sobek gitu :(, dateng dateng dusnya udah sobek gitu 😡🤬 adminya bintang 1 ⭐ ",
+            "alasan aku kasih cet 🎨: lagi mau aja soalnya icaa kalu udah urusan seni pasti menghasilkan sesuatu yang cantik kaya orangnya 😜:P, next gambarin shender pirdaus ",
+            "alasan aku kasih mugwort 😶‍🌫️🩷pink: suka aja liat kamu lagi maskeran lucu kaya petrik :P",
+            "dann yang terahir parpum  sebenarnya bingung sie mau ngasih apa jadi aku tiba tiba keinget sama parpum ini, tenang ya yang inimah bukan fekk",
+            ""
+        ];
+        
+        let messageIndex = 0;
+        const H3 = document.getElementById('h3-typing');
+        const H4 = document.getElementById('h4-message');
+        const nextBtn = document.getElementById('nextButton');
+        const messageContainer = document.querySelector('.message-container');
+        
+        const FADE_DURATION = 1000; // 1 detik (sesuai CSS transition)
+        const TYPING_DURATION = 3000; // 3 detik (sesuai CSS animation)
+
+        // =================================
+        // ANIMASI FADE IN/OUT HALAMAN
+        // =================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Tambahkan class 'loaded' ke body setelah DOM siap
             document.body.classList.add('loaded');
+            // Mulai animasi Typewriter setelah fade in halaman selesai
+            setTimeout(startTypewriter, 1000); 
         });
 
-        // 2. FADE OUT saat meninggalkan halaman
-        const backButton = document.getElementById('backButton');
-        const targetUrl = backButton.getAttribute('data-target');
-
-        // Ganti href tombol dengan '#' dan gunakan JS untuk navigasi
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Mencegah navigasi default
-            
-            // Mulai animasi fade out
+        const fadeOutAndRedirect = (url) => {
             document.body.style.opacity = '0'; 
-
-            // Setelah animasi fade out (1 detik sesuai CSS transition), alihkan halaman
             setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 1000); // Harus sama dengan durasi transisi di CSS (1s)
+                window.location.href = url;
+            }, 1000);
+        };
+
+        // Event Listener Tombol Kembali
+        document.getElementById('backButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            fadeOutAndRedirect(e.target.getAttribute('data-target'));
         });
         
-        // Tambahkan fitur fade out ke semua link di halaman (opsional, tapi disarankan)
+        // Event Listener untuk semua link lainnya
         document.querySelectorAll('a').forEach(link => {
-            if (link.id !== 'backButton' && link.getAttribute('href')) {
+            if (link.id !== 'backButton' && link.getAttribute('href') && link.target !== '_blank') {
                 link.addEventListener('click', (e) => {
-                    // Hanya lakukan fade out jika link mengarah ke halaman yang berbeda
-                    if (link.target !== '_blank' && link.href !== window.location.href + '#') {
-                        e.preventDefault();
-                        const href = link.href;
-
-                        document.body.style.opacity = '0';
-                        
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, 1000);
-                    }
+                    e.preventDefault();
+                    fadeOutAndRedirect(link.href);
                 });
             }
         });
+
+        // =================================
+        // ANIMASI PESAN
+        // =================================
+
+        function startTypewriter() {
+            messageContainer.classList.add('typing-active');
+            
+            // Tampilkan tombol Lanjut pertama kali setelah Typewriter selesai
+            setTimeout(() => {
+                nextBtn.classList.add('show');
+            }, TYPING_DURATION + 500); // 3s typing + 0.5s buffer
+        }
+
+        function nextMessage() {
+            // Sembunyikan pesan H4 saat ini (Fade Out)
+            H4.classList.remove('show');
+            nextBtn.classList.remove('show');
+
+            if (messageIndex < MESSAGES.length) {
+                // Tunggu hingga pesan H4 menghilang sepenuhnya
+                setTimeout(() => {
+                    // Ganti teks H4
+                    H4.textContent = MESSAGES[messageIndex];
+                    messageIndex++;
+                    
+                    // Tampilkan pesan H4 baru (Fade In)
+                    H4.classList.add('show');
+                    
+                    // Tampilkan tombol Lanjut setelah pesan muncul
+                    setTimeout(() => {
+                        nextBtn.classList.add('show');
+                    }, FADE_DURATION); // Durasi fade in
+                    
+                }, FADE_DURATION); // Durasi fade out
+                
+            } else {
+                // Semua pesan selesai
+                H4.classList.remove('show');
+                
+                setTimeout(() => {
+                    H4.textContent = "sorry";
+                    H4.classList.add('show');
+                    nextBtn.textContent = "balik lagi ke halaman awal";
+                    nextBtn.onclick = () => fadeOutAndRedirect('streak.html');
+                    nextBtn.classList.add('show');
+                }, FADE_DURATION);
+            }
+        }
+        
+        // Atur pesan pertama muncul otomatis setelah h3 selesai
+        // Karena ada tombol lanjut, kita tidak memanggil nextMessage() secara otomatis di awal.
+        // nextMessage akan dipanggil oleh tombol Lanjut.
     </script>
 </body>
 </html>
